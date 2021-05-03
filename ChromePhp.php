@@ -28,7 +28,7 @@ class ChromePhp
     /**
      * @var string
      */
-    const VERSION = '4.1.2';
+    const VERSION = '5';
 
     /**
      * @var string
@@ -117,11 +117,6 @@ class ChromePhp
     );
 
     /**
-     * @var ChromePhp
-     */
-    protected static ChromePhp $_instance;
-
-    /**
      * Prevent recursion when working with objects referring to each other
      *
      * @var array
@@ -139,28 +134,15 @@ class ChromePhp
     }
 
     /**
-     * gets instance of this class
-     *
-     * @return ChromePhp
-     */
-    public static function getInstance(): ChromePhp
-    {
-        if (self::$_instance === null) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    }
-
-    /**
      * logs a variable to the console
      *
      * @param array $args unlimited OPTIONAL number of additional logs [...]
      * @return void
      */
-    public static function log(...$args)
+    public function log(...$args)
     {
 
-        self::_log(self::LOG, $args);
+        $this->_log(self::LOG, $args);
     }
 
     /**
@@ -169,9 +151,9 @@ class ChromePhp
      * @param array $args unlimited OPTIONAL number of additional logs [...]
      * @return void
      */
-    public static function warn(...$args)
+    public function warn(...$args)
     {
-        self::_log(self::WARN, $args);
+        $this->_log(self::WARN, $args);
     }
 
     /**
@@ -180,9 +162,9 @@ class ChromePhp
      * @param array $args unlimited OPTIONAL number of additional logs [...]
      * @return void
      */
-    public static function error(...$args)
+    public function error(...$args)
     {
-        self::_log(self::ERROR, $args);
+        $this->_log(self::ERROR, $args);
     }
 
     /**
@@ -190,9 +172,9 @@ class ChromePhp
      *
      * @param array $args
      */
-    public static function group(...$args)
+    public function group(...$args)
     {
-        self::_log(self::GROUP, $args);
+        $this->_log(self::GROUP, $args);
     }
 
     /**
@@ -201,9 +183,9 @@ class ChromePhp
      * @param array $args unlimited OPTIONAL number of additional logs [...]
      * @return void
      */
-    public static function info(...$args)
+    public function info(...$args)
     {
-        self::_log(self::INFO, $args);
+        $this->_log(self::INFO, $args);
     }
 
     /**
@@ -211,9 +193,9 @@ class ChromePhp
      *
      * @param array $args
      */
-    public static function groupCollapsed(...$args)
+    public function groupCollapsed(...$args)
     {
-        self::_log(self::GROUP_COLLAPSED, $args);
+        $this->_log(self::GROUP_COLLAPSED, $args);
     }
 
     /**
@@ -221,9 +203,9 @@ class ChromePhp
      *
      * @param array $args
      */
-    public static function groupEnd(...$args)
+    public function groupEnd(...$args)
     {
-        self::_log(self::GROUP_END, $args);
+        $this->_log(self::GROUP_END, $args);
     }
 
     /**
@@ -231,20 +213,20 @@ class ChromePhp
      *
      * @param array $args
      */
-    public static function table(...$args)
+    public function table(...$args)
     {
-        self::_log(self::TABLE, $args);
+        $this->_log(self::TABLE, $args);
     }
 
     /**
      * Log Exception
      * @param Throwable $exception Exception object
      */
-    public static function exception(Throwable $exception)
+    public function exception(Throwable $exception)
     {
-        self::group($exception->getFile() . ' : ' . $exception->getLine());
-        self::warn('Message: ' . $exception->getMessage());
-        self::log('PHP Stack trace:');
+        $this->group($exception->getFile() . ' : ' . $exception->getLine());
+        $this->warn('Message: ' . $exception->getMessage());
+        $this->log('PHP Stack trace:');
         foreach ($exception->getTrace() as $key => $val) {
             $line = '#' . $key . "\t";
 
@@ -285,9 +267,9 @@ class ChromePhp
             if (!empty($val['file'])) {
                 $line .= $val['file'] . ':' . $val['line'];
             }
-            self::log($line);
+            $this->log($line);
         }
-        self::groupEnd();
+        $this->groupEnd();
     }
 
     /**
@@ -297,31 +279,29 @@ class ChromePhp
      * @param array $args
      * @return void
      */
-    protected static function _log(string $type, array $args)
+    protected function _log(string $type, array $args)
     {
         // nothing passed in, don't do anything
         if (count($args) == 0 && $type != self::GROUP_END) {
             return;
         }
 
-        $logger = self::getInstance();
-
-        $logger->_processed = array();
+        $this->_processed = array();
 
         $logs = array();
         foreach ($args as $arg) {
-            $logs[] = $logger->_convert($arg);
+            $logs[] = $this->_convert($arg);
         }
 
         $backtrace = debug_backtrace(false);
-        $level = $logger->getSetting(self::BACKTRACE_LEVEL);
+        $level = $this->getSetting(self::BACKTRACE_LEVEL);
 
         $backtrace_message = 'unknown';
         if (isset($backtrace[$level]['file']) && isset($backtrace[$level]['line'])) {
             $backtrace_message = $backtrace[$level]['file'] . ' : ' . $backtrace[$level]['line'];
         }
 
-        $logger->_addRow($logs, $backtrace_message, $type);
+        $this->_addRow($logs, $backtrace_message, $type);
     }
 
     /**

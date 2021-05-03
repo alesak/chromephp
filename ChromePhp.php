@@ -93,7 +93,7 @@ class ChromePhp
     /**
      * @var array
      */
-    protected $_json = array(
+    protected array $_json = array(
         'version' => self::VERSION,
         'columns' => array('log', 'backtrace', 'type'),
         'rows' => array()
@@ -102,31 +102,31 @@ class ChromePhp
     /**
      * @var array
      */
-    protected $_backtrace = array();
+    protected array $_backtrace = array();
 
     /**
      * @var bool
      */
-    protected $_error_triggered = false;
+    protected bool $_error_triggered = false;
 
     /**
      * @var array
      */
-    protected $_settings = array(
+    protected array $_settings = array(
         self::BACKTRACE_LEVEL => 1
     );
 
     /**
      * @var ChromePhp
      */
-    protected static $_instance;
+    protected static ChromePhp $_instance;
 
     /**
      * Prevent recursion when working with objects referring to each other
      *
      * @var array
      */
-    protected $_processed = array();
+    protected array $_processed = array();
 
     /**
      * constructor
@@ -134,7 +134,7 @@ class ChromePhp
     private function __construct()
     {
         $this->_php_version = phpversion();
-        $this->_timestamp = $this->_php_version >= 5.1 ? $_SERVER['REQUEST_TIME'] : time();
+        $this->_timestamp = $_SERVER['REQUEST_TIME'];
         $this->_json['request_uri'] = $_SERVER['REQUEST_URI'];
     }
 
@@ -143,7 +143,7 @@ class ChromePhp
      *
      * @return ChromePhp
      */
-    public static function getInstance()
+    public static function getInstance(): ChromePhp
     {
         if (self::$_instance === null) {
             self::$_instance = new self();
@@ -160,7 +160,7 @@ class ChromePhp
     public static function log(...$args)
     {
 
-        self::_log('', $args);
+        self::_log(self::LOG, $args);
     }
 
     /**
@@ -297,7 +297,7 @@ class ChromePhp
      * @param array $args
      * @return void
      */
-    protected static function _log($type, array $args)
+    protected static function _log(string $type, array $args)
     {
         // nothing passed in, don't do anything
         if (count($args) == 0 && $type != self::GROUP_END) {
@@ -330,7 +330,7 @@ class ChromePhp
      * @param Object
      * @return array
      */
-    protected function _convert($object)
+    protected function _convert($object): array
     {
         // if this isn't an object then just return it
         if (!is_object($object)) {
@@ -369,15 +369,9 @@ class ChromePhp
                 }
                 $type = $this->_getPropertyKey($property);
 
-                if ($this->_php_version >= 5.3) {
-                    $property->setAccessible(true);
-                }
+                $property->setAccessible(true);
 
-                try {
-                    $value = $property->getValue($object);
-                } catch (ReflectionException $e) {
-                    $value = 'only PHP 5.3 can access private/protected properties';
-                }
+                $value = $property->getValue($object);
 
                 // same instance as parent object
                 if ($value === $object || in_array($value, $this->_processed, true)) {
@@ -398,7 +392,7 @@ class ChromePhp
      * @param ReflectionProperty
      * @return string
      */
-    protected function _getPropertyKey(ReflectionProperty $property)
+    protected function _getPropertyKey(ReflectionProperty $property): string
     {
         $static = $property->isStatic() ? ' static' : '';
         if ($property->isPublic()) {
@@ -455,7 +449,7 @@ class ChromePhp
      * @param array $data
      * @return string
      */
-    protected function _encode($data)
+    protected function _encode(array $data): string
     {
         return base64_encode(utf8_encode(json_encode($data)));
     }

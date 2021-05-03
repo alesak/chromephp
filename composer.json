@@ -7,13 +7,13 @@
     "log",
     "logging"
   ],
-  "homepage": "http://github.com/ccampbell/chromephp",
+  "homepage": "https://github.com/rame0/chromephp",
   "license": "Apache-2.0",
   "authors": [
     {
       "name": "Craig Campbell",
       "email": "iamcraigcampbell@gmail.com",
-      "homepage": "http://craig.is",
+      "homepage": "https://craig.is",
       "role": "Developer"
     },
     {
@@ -24,7 +24,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.4.0",
     "ext-json": "*"
   },
   "autoload": {

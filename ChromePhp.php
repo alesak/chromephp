@@ -126,7 +126,7 @@ class ChromePhp
     /**
      * constructor
      */
-    private function __construct()
+    public function __construct()
     {
         $this->_php_version = phpversion();
         $this->_timestamp = $_SERVER['REQUEST_TIME'];

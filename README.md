@@ -15,8 +15,14 @@ This library allows you to log data to the Chrome console.
 3. Install ChromePhp
 
 __It's not recommended to use this library on production!__
+
+Install as dev dependency:
 ```
-    composer require --dev rame0/yandex-market-object
+    composer require --dev rame0/chromephp
+```
+Install as prod dependency:
+```
+    composer require rame0/chromephp
 ```
 
 ## Log some data
@@ -24,35 +30,36 @@ __It's not recommended to use this library on production!__
 ```php
 // First require autoload
 require __DIR__ . '/vendor/autoload.php';
+$logger = new ChromePhp();
 ```
-#### ChromePhp::log
+#### Log
 ```php
-ChromePhp::log('Some log message');
-ChromePhp::log('Some other log message');
+$logger->log('Some log message');
+$logger->log('Some other log message');
 ```
 #### Result
 ![1](https://user-images.githubusercontent.com/2233607/116883874-c051ee00-ac2e-11eb-99dc-5c3819cdaad5.png)
 
 
-#### ChromePhp::warn
+#### Warning
 ```php
-ChromePhp::warn('Some warning');
-ChromePhp::warn('Some other warning');
+$logger->warn('Some warning');
+$logger->warn('Some other warning');
 ```
 #### Result
 ![2](https://user-images.githubusercontent.com/2233607/116883897-c6e06580-ac2e-11eb-9587-3f65a0db2f3e.png)
 
 
-#### ChromePhp::error
+#### Error
 ```php
-ChromePhp::error('Some error');
-ChromePhp::error('Some other error');
+$logger->error('Some error');
+$logger->error('Some other error');
 ```
 #### Result
 ![3](https://user-images.githubusercontent.com/2233607/116883911-cba51980-ac2e-11eb-92a1-4d692d3a58a2.png)
 
 
-#### ChromePhp::table
+#### Table
 ```php
 $table = [];
 for ($i = 0; $i < 5; $i++) {
@@ -62,21 +69,21 @@ for ($i = 0; $i < 5; $i++) {
     }
     $table[] = $row;
 }
-ChromePhp::table($table);
+$logger->table($table);
 ```
 #### Result
 ![4](https://user-images.githubusercontent.com/2233607/116883927-d1026400-ac2e-11eb-8012-64a5896e71cc.png)
 
 
-#### ChromePhp::exception
+#### Exception
 ```php
 $ex = new InvalidArgumentException('Some exception!');
-ChromePhp::exception($ex);
+$logger->exception($ex);
 
 try{
     new PDO('asdf');
 }catch (PDOException $ex){
-    ChromePhp::exception($ex);
+    $logger->exception($ex);
 }
 ```
 #### Result

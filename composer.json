@@ -1,7 +1,7 @@
 {
   "name": "rame0/chromephp",
   "type": "library",
-  "version": "5.0.3",
+  "version": "5.0.3-patch",
   "description": "Log variables to the Chrome console (via Chrome Logger Google Chrome extension).",
   "keywords": [
     "log",
@@ -23,13 +23,13 @@
       "role": "Developer"
     }
   ],
-  "require": {
-    "php": ">=7.4.0",
-    "ext-json": "*"
-  },
   "autoload": {
     "psr-4": {
       "rame0\\ChromePhp\\": "lib"
     }
+  },
+  "require": {
+    "php": ">=7.4.0",
+    "ext-json": "*"
   }
 }

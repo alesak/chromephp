@@ -1,7 +1,7 @@
 {
   "name": "rame0/chromephp",
   "type": "library",
-  "version": "5.0.3-patch",
+  "version": "5.0.3-patch1",
   "description": "Log variables to the Chrome console (via Chrome Logger Google Chrome extension).",
   "keywords": [
     "log",

@@ -1,7 +1,7 @@
 {
   "name": "rame0/chromephp",
   "type": "library",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Log variables to the Chrome console (via Chrome Logger Google Chrome extension).",
   "keywords": [
     "log",
@@ -29,7 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "rame0\\ChromePhp\\": "ChromePhp"
+      "rame0\\": "lib/"
     }
   }
 }

@@ -16,6 +16,12 @@
  * limitations under the License.
  */
 
+namespace rame0\ChromePhp;
+
+use ReflectionClass;
+use ReflectionProperty;
+use Throwable;
+
 /**
  * Server Side Chrome PHP debugger class
  *
@@ -369,7 +375,7 @@ class ChromePhp
     /**
      * takes a reflection property and returns a nicely formatted key of the property name
      *
-     * @param ReflectionProperty
+     * @param ReflectionProperty $property
      * @return string
      */
     protected function _getPropertyKey(ReflectionProperty $property): string

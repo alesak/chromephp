@@ -314,9 +314,9 @@ class ChromePhp
      * converts an object to a better format for logging
      *
      * @param Object
-     * @return array
+     * @return mixed
      */
-    protected function _convert($object): array
+    protected function _convert($object)
     {
         // if this isn't an object then just return it
         if (!is_object($object)) {

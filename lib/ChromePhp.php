@@ -18,6 +18,7 @@
 
 namespace rame0\ChromePhp;
 
+use JsonException;
 use ReflectionClass;
 use ReflectionProperty;
 use Throwable;
@@ -306,7 +307,6 @@ class ChromePhp
         if (isset($backtrace[$level]['file']) && isset($backtrace[$level]['line'])) {
             $backtrace_message = $backtrace[$level]['file'] . ' : ' . $backtrace[$level]['line'];
         }
-
         $this->_addRow($logs, $backtrace_message, $type);
     }
 
@@ -437,7 +437,12 @@ class ChromePhp
      */
     protected function _encode(array $data): string
     {
-        return base64_encode(utf8_encode(json_encode($data)));
+        try {
+            return base64_encode(json_encode($data, JSON_THROW_ON_ERROR));
+        } catch (JsonException $e) {
+            //backward compatibility with original utf_encode
+            return base64_encode(mb_convert_encoding(json_encode($data), "UTF-8", "ISO-8859-1"));
+        }
     }
 
     /**
